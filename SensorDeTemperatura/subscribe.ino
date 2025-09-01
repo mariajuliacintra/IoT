@@ -14,3 +14,11 @@ void handleTemperatura(AdafruitIO_Data *data) {
     digitalWrite(pinLed, LOW);
   }
 }
+
+void handleBotaoLed(AdafruitIO_Data *data) {
+  if (!data->toBool()) {
+    digitalWrite(pinLed, HIGH);
+  } else {
+    digitalWrite(pinLed, LOW);
+  }
+}
