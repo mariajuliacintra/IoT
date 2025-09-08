@@ -1,8 +1,9 @@
 #include <math.h>
 #include "AdafruitIO_WiFi.h"
+#include "NewPing.h"
 
 //Configuração da rede WIFI
-#define WIFI_SSID
+#define WIFI_SSID 
 #define WIFI_PASS 
 
 // Autenticação Adafruit IO
@@ -12,7 +13,16 @@
 AdafruitIO_WiFi io(IO_USERNAME, IO_KEY, WIFI_SSID, WIFI_PASS);
 
 #define pinNTC 34 // pino do sensor de temperatura
-#define pinLed 14 // pino do led
+// #define pinLed 14 // pino do led
+#define BUZZER_PIN 27
+#define LED_ALARM 13
+#define BOTAO_FISICO 26
+#define TRIG_PIN 12
+#define ECHO_PIN 14
+
+//Configuração do ultrassonico
+#define MAX_DISTANCE 100
+NewPing sonar(TRIG_PIN, ECHO_PIN, MAX_DISTANCE);
 
 // Controle de envio de dados 
 float temp_atual = 0;
@@ -31,7 +41,10 @@ const float Vcc = 3.3;
 
 void setup() {
   pinMode(pinNTC, INPUT);
-  pinMode(pinLed, OUTPUT);
+  // pinMode(pinLed, OUTPUT);
+  pinMode(BUZZER_PIN, OUTPUT);
+  pinMode(LED_ALARM, OUTPUT);
+  pinMode(BOTAO_FISICO, INPUT);
   Serial.begin(115200);
 
   while(!Serial);
@@ -61,7 +74,10 @@ void loop() {
   io.run();
 
   //publicacao(); //chamada da função publish
-
-
-  delay(3000);
+  // testeLed();
+  // testeBuzzer();
+  // testeBotao(BOTAO_FISICO);
+  Serial.print(F("Distacia Lida: "));
+  Serial.println(sonar.ping_cm());
+  delay(500);
 }
